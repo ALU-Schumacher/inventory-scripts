@@ -1,0 +1,17 @@
+# Connection settings for the Digital Carbon Footprint API.
+
+carbonfootprint:
+  enabled: true
+  url: https://api.digitalcarbonfootprint.eu/server
+  timeout_seconds: 30
+  retries: 1
+
+# Second request, sent after the carbon footprint request succeeded or if carbonfootprint is set to false
+auditor:
+  url: http://localhost:8000/inventory
+  timeout_seconds: 30
+  retries: 1
+  # Host list expressions: [a-b,c,d-e] expands to every number (zero padding kept).
+  # Plain names are fine too.
+  node_ids:
+    - n[2119].node.uni.de
