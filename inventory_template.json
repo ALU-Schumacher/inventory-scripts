@@ -1,0 +1,89 @@
+{
+  "site_id": "",
+  "group": "",
+  "pue": 0,
+  "wue": null,
+  "queue_id": "",
+  "availability": 0,
+
+  "node_id": "",
+  "installation_date": "2026-01-01",
+  "number_of_vcores": 0,
+  "planned_usage_years": 0,
+  "embedded_co2_eq_kg": null,
+  "embedded_co2_eq_kg_updated_at": null,
+  "embedded_co2_per_runtime": null,
+
+  "power_consumption": {
+    "idle": 0.0,
+    "stress": 0.0,
+    "cpu_frequency_dependence": {
+      "cpu_frequency_Mhz": [],
+      "hepscore": [],
+      "power_W": [],
+      "watt_per_core_W": []
+    }
+  },
+
+  "emission_co2_per_kwh": 0,
+
+  "cpu": {
+    "model": "",
+    "tdp_watt": 0,
+    "die_size_cm2": 0,
+    "cores_per_cpu": 0,
+    "vcores_per_machine": 0,
+    "number_of_cpus": 0,
+    "with_gold_pins": false,
+    "heat_sink_kg": 0,
+    "thermal_design_power_per_cpu_watt": 0
+  },
+  "gpu": {
+    "die_size_cm2": 0,
+    "number_of_gpus": 0,
+    "with_gold_connectors": false,
+    "tdp_watt": 0
+  },
+  "hdd": {
+    "number_of_hdds": 0
+  },
+  "psu": {
+    "number_per_device": 0,
+    "weight_per_psu_kg": 0
+  },
+  "ramList": [
+    {
+      "die_size_cm2": 0,
+      "with_gold_pins": false,
+      "number_of_modules": 0,
+      "storage_per_module_gb": 0
+    }
+  ],
+  "ssdList": [
+    {
+      "storage_tb": 0,
+      "die_size_cm2": 0,
+      "number_of_ssds": 0
+    }
+  ],
+  "fans": {
+    "number_of_fans": 0,
+    "weight_per_fan_kg": 0
+  },
+  "cables": {
+    "total_weight_kg": 0.0
+  },
+  "housing": {
+    "steel_kg": 0,
+    "copper_kg": 0,
+    "plastics_kg": 0,
+    "aluminium_kg": 0,
+    "total_device_weight_without_psus_kg": 0
+  },
+  "network_cards": {
+    "number_of_ports": 0
+  },
+  "circuit_boards": {
+    "area_cm2": 0
+  }
+}
