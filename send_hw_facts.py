@@ -77,8 +77,8 @@ def write_json_atomic(data, path):
 # ----------------------------------------------------------------------
 
 def build_payload(facts):
-    cpu = facts.get("cpu", {})
-    gpu = facts.get("gpu", {})
+    cpu = facts.get("cpu") or {}
+    gpu = facts.get("gpu") or {}
 
     release_year = facts.get("release_year")
     if not release_year:
@@ -86,12 +86,12 @@ def build_payload(facts):
         try:
             release_year = int(str(facts.get("installation_date", ""))[:4])
         except ValueError:
-            release_year = 0
+            release_year = None
 
     node_id = facts.get("node_id", "")
 
-    ssd = facts.get("ssdList", [])
-    if isinstance(ssd, dict):          
+    ssd = facts.get("ssdList") or []
+    if isinstance(ssd, dict):
         ssd = [ssd]
 
     return {
@@ -102,56 +102,58 @@ def build_payload(facts):
         },
         "device_name": node_id,
         "cpu": {
-            "number_of_cpus": cpu.get("number_of_cpus", 0),
-            "cores_per_cpu": cpu.get("cores_per_cpu", 0),
-            "tdp_watt": cpu.get("tdp_watt", 0),
-            "die_size_cm2": cpu.get("die_size_cm2", 0),
+            "number_of_cpus": cpu.get("number_of_cpus"),
+            "cores_per_cpu": cpu.get("cores_per_cpu"),
+            "tdp_watt": cpu.get("tdp_watt"),
+            "die_size_cm2": cpu.get("die_size_cm2"),
             "with_gold_pins": cpu.get("with_gold_pins", True),
-            "heatsink_weight_kg": cpu.get("heat_sink_kg", 0),   # renamed
+            "heatsink_weight_kg": cpu.get("heat_sink_kg"),   # renamed
         },
         "gpu": {
-            "number_of_gpus": gpu.get("number_of_gpus", 0),
-            "tdp_watt": gpu.get("tdp_watt", 0),
-            "die_size_cm2": gpu.get("die_size_cm2", 0),
+            "number_of_gpus": gpu.get("number_of_gpus"),
+            "tdp_watt": gpu.get("tdp_watt"),
+            "die_size_cm2": gpu.get("die_size_cm2"),
             "with_gold_pins": gpu.get("with_gold_connectors", True),  # renamed
         },
         "ramList": [
             {
-                "number_of_modules": r.get("number_of_modules", 0),
-                "storage_per_module_gb": r.get("storage_per_module_gb", 0),
-                "die_size_cm2": r.get("die_size_cm2", 0),
+                "number_of_modules": r.get("number_of_modules"),
+                "storage_per_module_gb": r.get("storage_per_module_gb"),
+                "die_size_cm2": r.get("die_size_cm2"),
                 "with_gold_pins": r.get("with_gold_pins", True),
             }
-            for r in facts.get("ramList", [])
+            for r in (facts.get("ramList") or [])
         ],
-        "hdd": {"number_of_hdds": facts.get("hdd", {}).get("number_of_hdds", 0)},
+        "hdd": {
+            "number_of_hdds": (facts.get("hdd") or {}).get("number_of_hdds")
+        },
         "ssdList": [
             {
-                "number_of_ssds": s.get("number_of_ssds", 0),
-                "storage_tb": s.get("storage_tb", 0),
-                "die_size_cm2": s.get("die_size_cm2", 0),
+                "number_of_ssds": s.get("number_of_ssds"),
+                "storage_tb": s.get("storage_tb"),
+                "die_size_cm2": s.get("die_size_cm2"),
             }
             for s in ssd
         ],
         "network_cards": {
-            "number_of_ports": facts.get("network_cards", {}).get("number_of_ports", 0)
+            "number_of_ports": (facts.get("network_cards") or {}).get("number_of_ports")
         },
         "circuit_boards": {
-            "area_cm2": facts.get("circuit_boards", {}).get("area_cm2", 0)
+            "area_cm2": (facts.get("circuit_boards") or {}).get("area_cm2")
         },
         "psu": {
-            "number_per_device": facts.get("psu", {}).get("number_per_device", 0),
-            "weight_per_psu_kg": facts.get("psu", {}).get("weight_per_psu_kg", 0),
+            "number_per_device": (facts.get("psu") or {}).get("number_per_device"),
+            "weight_per_psu_kg": (facts.get("psu") or {}).get("weight_per_psu_kg"),
         },
         "cables": {
-            "total_weight_kg": facts.get("cables", {}).get("total_weight_kg", 0)
+            "total_weight_kg": (facts.get("cables") or {}).get("total_weight_kg")
         },
         "fans": {
-            "number_of_fans": facts.get("fans", {}).get("number_of_fans", 0),
-            "weight_per_fan_kg": facts.get("fans", {}).get("weight_per_fan_kg", 0),
+            "number_of_fans": (facts.get("fans") or {}).get("number_of_fans"),
+            "weight_per_fan_kg": (facts.get("fans") or {}).get("weight_per_fan_kg"),
         },
         "housing": {
-            k: facts.get("housing", {}).get(k, 0)
+            k: (facts.get("housing") or {}).get(k)
             for k in (
                 "total_device_weight_without_psus_kg",
                 "steel_kg",
@@ -161,7 +163,6 @@ def build_payload(facts):
             )
         },
     }
-
 
 # ----------------------------------------------------------------------
 # HTTP
@@ -367,21 +368,15 @@ def main():
     cf_enabled = cf.get("enabled", False)
     auditor = config.get("auditor") or {}
 
-    if args.dry_run:
-        if cf_enabled:
-            print(json.dumps(build_payload(facts), indent=2))
-        else:
-            print("carbonfootprint request disabled in config (enabled: false).")
-        if auditor.get("url"):
-            print("\n--- auditor request ---")
-            print(json.dumps(build_auditor_payload(facts, auditor), indent=2))
-        return
-
     if cf_enabled:
         run_carbonfootprint(facts, cf, args.inventory_file)
     else:
         print("Carbon footprint request disabled "
               "(carbonfootprint.enabled: false); skipping.")
+
+    if args.dry_run:
+        print("\nDry run: skipping auditor request.")
+        return
 
     # Second request: reached if the first succeeded or was disabled
     send_auditor(facts, config)
