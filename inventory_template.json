@@ -5,15 +5,13 @@
   "wue": null,
   "queue_id": "",
   "availability": 0,
-
   "node_id": "",
   "installation_date": "2026-01-01",
   "number_of_vcores": 0,
   "planned_usage_years": 0,
-  "embedded_co2_eq_kg": null,
+  "embedded_co2_eq_kg": 0.0,
   "embedded_co2_eq_kg_updated_at": null,
   "embedded_co2_per_runtime": null,
-
   "power_consumption": {
     "idle": 0.0,
     "stress": 0.0,
@@ -24,66 +22,64 @@
       "watt_per_core_W": []
     }
   },
-
   "emission_co2_per_kwh": 0,
-
   "cpu": {
     "model": "",
-    "tdp_watt": 0,
-    "die_size_cm2": 0,
-    "cores_per_cpu": 0,
-    "vcores_per_machine": 0,
-    "number_of_cpus": 0,
+    "tdp_watt": null,
+    "die_size_cm2": null,
+    "cores_per_cpu": null,
+    "vcores_per_machine": null,
+    "number_of_cpus": null,
     "with_gold_pins": false,
-    "heat_sink_kg": 0,
-    "thermal_design_power_per_cpu_watt": 0
+    "heat_sink_kg": null,
+    "thermal_design_power_per_cpu_watt": null
   },
   "gpu": {
-    "die_size_cm2": 0,
-    "number_of_gpus": 0,
+    "die_size_cm2": null,
+    "number_of_gpus": null,
     "with_gold_connectors": false,
-    "tdp_watt": 0
+    "tdp_watt": null
   },
   "hdd": {
-    "number_of_hdds": 0
+    "number_of_hdds": null
   },
   "psu": {
-    "number_per_device": 0,
-    "weight_per_psu_kg": 0
+    "number_per_device": null,
+    "weight_per_psu_kg": null
   },
   "ramList": [
     {
-      "die_size_cm2": 0,
+      "die_size_cm2": null,
       "with_gold_pins": false,
-      "number_of_modules": 0,
-      "storage_per_module_gb": 0
+      "number_of_modules": null,
+      "storage_per_module_gb": null
     }
   ],
   "ssdList": [
     {
-      "storage_tb": 0,
-      "die_size_cm2": 0,
-      "number_of_ssds": 0
+      "storage_tb": null,
+      "die_size_cm2": null,
+      "number_of_ssds": null
     }
   ],
   "fans": {
-    "number_of_fans": 0,
-    "weight_per_fan_kg": 0
+    "number_of_fans": null,
+    "weight_per_fan_kg": null
   },
   "cables": {
-    "total_weight_kg": 0.0
+    "total_weight_kg": null
   },
   "housing": {
-    "steel_kg": 0,
-    "copper_kg": 0,
-    "plastics_kg": 0,
-    "aluminium_kg": 0,
-    "total_device_weight_without_psus_kg": 0
+    "steel_kg": null,
+    "copper_kg": null,
+    "plastics_kg": null,
+    "aluminium_kg": null,
+    "total_device_weight_without_psus_kg": null
   },
   "network_cards": {
-    "number_of_ports": 0
+    "number_of_ports": null
   },
   "circuit_boards": {
-    "area_cm2": 0
+    "area_cm2": null
   }
 }
