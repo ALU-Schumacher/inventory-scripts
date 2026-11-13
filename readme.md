@@ -7,20 +7,21 @@
 
 `collect_hw_facts.py` scrapes the node information and populates the `inventory_template.json` file
 
-Usage:
-    `python3 collect_hw_facts.py`
-    `sudo python3 collect_hw_facts.py`     # needed for RAM (dmidecode)
-    `python3 collect_hw_facts.py --template my_template.json --output out.json`
+## Usage
 
+- `python3 collect_hw_facts.py`
+- `sudo python3 collect_hw_facts.py` — needed for RAM (dmidecode)
+- `python3 collect_hw_facts.py --template inventory_template.json --output out.json`
 
+Before proceeding to the next step, review the inventory_template.json file to verify that the fields collected from the node are accurate.
 
 ### send_hw_facts.py
 
 `send_hw_facts.py` Sends filled inventory json to AUDITOR
 
-1. Reads the inventory JSON from collect_hw_facts.py
-2. POSTs it to the Digital Carbon Footprint API if you enable it in the config to compute the embedded carbon emission
-3. Sends the inventory json to AUDITOR
+1. POSTs it to the Digital Carbon Footprint API if you enable it in the config to compute the embedded carbon emission. You can enable/disable this in the config
+2. Sends the inventory json to AUDITOR. 
+3. Use --dry-run option if you would just like to view the embedded_co2_eq_kg computed from Digital Carbon Footprint API. 
 
 Modify the `config.yaml` to set the AUDITOR endpoint and `node_ids` lists the nodes that `send_hw_facts.py` sends the inventory for.
 
@@ -33,10 +34,11 @@ auditor:
     - n01.node.uni.de          # plain name -> 1 node
 ```
 
-Usage:
-    `python3 send_hw_facts.py`
-    `python3 send_hw_facts.py --dry-run`     # show payload only
-    `python3 send_hw_facts.py --inventory-file inventory_template.json`
+## Usage
+
+- `python3 send_hw_facts.py`
+- `python3 send_hw_facts.py --dry-run` — show payload only
+- `python3 send_hw_facts.py --inventory-file inventory_template.json`
 
 
 
@@ -59,7 +61,7 @@ Usage:
 | `psu.number_per_device`         | `ipmitool sdr type "Power Supply"` (presence detected)        | Yes         | Keeps template value if 0                                                        |
 | `installation_date`             | `stat -c %W /` (filesystem birth time, UTC)                   | No          | OS install date, not hardware purchase date. Keeps template value if unsupported |
 
-### Not collected (fill in manually)
+### Not collected (fill in manually if possible)
 
 | JSON field                                              | Where to get it                                                              |
 |---------------------------------------------------------|------------------------------------------------------------------------------|
